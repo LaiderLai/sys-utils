@@ -40,4 +40,4 @@ To build system utilities' snap pakcage for diagnostics.
 
 ## The includes system utilities
 
-NULL
+1. `sys-utils.lspci`
