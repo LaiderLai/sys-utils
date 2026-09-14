@@ -1,0 +1,73 @@
+name: sys-utils
+title: System Utilities
+summary: System utilities for diagnostics
+description: |
+  Sys-utils provides essential system utilities
+  for hardware diagnostics.
+version: '0.1'
+base: core26
+license: GPL-3.0+
+source-code: https://github.com/laiderlai/sys-utils
+contact: https://github.com/laiderlai/sys-utils
+issues: https://github.com/laiderlai/sys-utils/issues
+website: https://github.com/laiderlai/sys-utils
+type: app
+grade: stable
+confinement: strict
+
+platforms:
+  amd64:
+    build-on:
+      - amd64
+    build-for:
+      - amd64
+  arm64:
+    build-on:
+      - arm64
+    build-for:
+      - arm64
+
+parts:
+  pciutils:
+    plugin: make
+    source: https://github.com/pciutils/pciutils
+    source-type: git
+    source-tag: v3.15.0
+    make-parameters:
+      - PREFIX=/usr
+      - SBINDIR=/usr/bin
+      - ZLIB=yes
+    build-packages:
+      - build-essential
+      - pkg-config
+      - zlib1g-dev
+    stage-packages:
+      - zlib1g
+    organize:
+      usr/bin/lspci: bin/lspci
+    prime:
+      # No write permission under strict confinement
+      # Remove unusable tools
+      - -usr/bin
+      - -usr/share/pci.ids
+      - -usr/share/man/man8/pcilmr.8
+      - -usr/share/man/man8/setpci.8
+      - -usr/share/man/man8/update-pciids.8
+
+# Redirect to read vendor/product names
+layout:
+  /usr/share/pci.ids:
+    bind-file: $SNAP/usr/share/pci.ids.gz
+
+apps:
+  lspci:
+    command: bin/lspci
+    plugs:
+      - hardware-observe
+      - system-observe
+
+plugs:
+  hardware-observe:
+    interface: hardware-observe
+  system-observe:
+    interface: system-observe
