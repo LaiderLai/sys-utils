@@ -54,10 +54,51 @@ parts:
       - -usr/share/man/man8/setpci.8
       - -usr/share/man/man8/update-pciids.8
 
+  usbutils:
+    plugin: meson
+    source: https://github.com/gregkh/usbutils
+    source-type: git
+    source-tag: v019
+    meson-parameters:
+      - --prefix=/usr
+    build-packages:
+      - gcc
+      - pkg-config
+      - meson
+      - ninja-build
+      - libudev-dev
+      - libusb-1.0-0-dev
+    stage-packages:
+      - libusb-1.0-0
+    organize:
+      usr/bin/lsusb: bin/lsusb
+      usr/bin/usb-devices: bin/usb-devices
+    prime:
+      # No write permission under strict confinement
+      # Remove unusable tools
+      - -usr/bin
+      - -usr/share/man/man1/lsusb.py.1
+      - -usr/share/man/man8/usbhid-dump.8
+
+  # usbutils resolves vendor/product names through the udev hwdb
+  # (hwdb.bin). Generate one inside the snap.
+  hwdb:
+    plugin: nil
+    stage-packages:
+      - udev
+    override-build: |
+      craftctl default
+      systemd-hwdb update --root "${CRAFT_PART_INSTALL}"
+    stage:
+      - etc/udev/hwdb.bin
+
 # Redirect to read vendor/product names
 layout:
   /usr/share/pci.ids:
-    bind-file: $SNAP/usr/share/pci.ids.gz
+    bind-file: $SNAP/usr/share/pci.ids
+
+  /etc/udev/hwdb.bin:
+    bind-file: $SNAP/etc/udev/hwdb.bin
 
 apps:
   lspci:
@@ -66,8 +107,24 @@ apps:
       - hardware-observe
       - system-observe
 
+  lsusb:
+    command: bin/lsusb
+    plugs:
+      - hardware-observe
+      - system-observe
+      - raw-usb
+
+  usb-devices:
+    command: bin/usb-devices
+    plugs:
+      - hardware-observe
+      - system-observe
+      - raw-usb
+
 plugs:
   hardware-observe:
     interface: hardware-observe
   system-observe:
     interface: system-observe
+  raw-usb:
+    interface: raw-usb
