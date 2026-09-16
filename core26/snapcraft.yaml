@@ -80,6 +80,29 @@ parts:
       - -usr/share/man/man1/lsusb.py.1
       - -usr/share/man/man8/usbhid-dump.8
 
+  lshw:
+    plugin: make
+    source: https://github.com/lyonel/lshw
+    source-type: git
+    source-tag: B.02.20
+    make-parameters:
+      - PREFIX=/usr
+      - SBINDIR=/usr/bin
+      - ZLIB=1
+    build-packages:
+      - build-essential
+      - pkg-config
+      - zlib1g-dev
+      - gettext
+    stage-packages:
+      - zlib1g
+    organize:
+      usr/bin/lshw: bin/lshw
+    prime:
+      # No write permission under strict confinement
+      # Remove unusable tools
+      - -usr/bin
+
   # usbutils resolves vendor/product names through the udev hwdb
   # (hwdb.bin). Generate one inside the snap.
   hwdb:
@@ -100,6 +123,9 @@ layout:
   /etc/udev/hwdb.bin:
     bind-file: $SNAP/etc/udev/hwdb.bin
 
+  /usr/share/lshw:
+    bind: $SNAP/usr/share/lshw
+
 apps:
   lspci:
     command: bin/lspci
@@ -113,6 +139,14 @@ apps:
       - hardware-observe
       - system-observe
       - raw-usb
+
+  lshw:
+    command: bin/lshw
+    plugs:
+      - hardware-observe
+      - system-observe
+      - raw-usb
+      - block-devices
 
   usb-devices:
     command: bin/usb-devices
@@ -128,3 +162,5 @@ plugs:
     interface: system-observe
   raw-usb:
     interface: raw-usb
+  block-devices:
+    interface: block-devices
