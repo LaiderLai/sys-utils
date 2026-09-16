@@ -43,3 +43,4 @@ To build system utilities' snap pakcage for diagnostics.
 1. `sys-utils.lspci`
 2. `sys-utils.lsusb`
 3. `sys-utils.usb-devices`
+4. `sys-utils.lshw`
