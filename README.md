@@ -44,3 +44,8 @@ To build system utilities' snap pakcage for diagnostics.
 2. `sys-utils.lsusb`
 3. `sys-utils.usb-devices`
 4. `sys-utils.lshw`
+5. `sys-utils.i2cdetect`
+6. `sys-utils.i2cdump`
+7. `sys-utils.i2cget`
+8. `sys-utils.i2cset`
+9. `sys-utils.i2ctransfer`
