@@ -103,6 +103,33 @@ parts:
       # Remove unusable tools
       - -usr/bin
 
+  i2c-tools:
+    plugin: make
+    source: https://git.launchpad.net/~git-ubuntu-import/ubuntu/+source/i2c-tools
+    source-type: git
+    source-tag: import/4.4-2build3
+    make-parameters:
+      - PREFIX=/usr
+      - sbindir=/usr/bin
+      - USE_STATIC_LIB=1
+    build-packages:
+      - build-essential
+    organize:
+      usr/bin/i2cdetect: bin/i2cdetect
+      usr/bin/i2cdump: bin/i2cdump
+      usr/bin/i2cget: bin/i2cget
+      usr/bin/i2cset: bin/i2cset
+      usr/bin/i2ctransfer: bin/i2ctransfer
+    prime:
+      # Remove unusable tools (perl scripts) and build-only artifacts
+      - -usr/bin
+      - -usr/include
+      - -usr/lib
+      - -usr/share/man/man1/decode-dimms.1
+      - -usr/share/man/man1/decode-vaio.1
+      - -usr/share/man/man3/libi2c.3
+      - -usr/share/man/man8/i2c-stub-from-dump.8
+
   # usbutils resolves vendor/product names through the udev hwdb
   # (hwdb.bin). Generate one inside the snap.
   hwdb:
@@ -155,6 +182,41 @@ apps:
       - system-observe
       - raw-usb
 
+  i2cdetect:
+    command: bin/i2cdetect
+    plugs:
+      - hardware-observe
+      - system-observe
+      - i2c
+
+  i2cdump:
+    command: bin/i2cdump
+    plugs:
+      - hardware-observe
+      - system-observe
+      - i2c
+
+  i2cget:
+    command: bin/i2cget
+    plugs:
+      - hardware-observe
+      - system-observe
+      - i2c
+
+  i2cset:
+    command: bin/i2cset
+    plugs:
+      - hardware-observe
+      - system-observe
+      - i2c
+
+  i2ctransfer:
+    command: bin/i2ctransfer
+    plugs:
+      - hardware-observe
+      - system-observe
+      - i2c
+
 plugs:
   hardware-observe:
     interface: hardware-observe
@@ -164,3 +226,5 @@ plugs:
     interface: raw-usb
   block-devices:
     interface: block-devices
+  i2c:
+    interface: i2c
