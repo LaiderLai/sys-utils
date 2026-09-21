@@ -130,6 +130,36 @@ parts:
       - -usr/share/man/man3/libi2c.3
       - -usr/share/man/man8/i2c-stub-from-dump.8
 
+  lm-sensors:
+    plugin: make
+    source: https://github.com/lm-sensors/lm-sensors
+    source-type: git
+    source-tag: V3-6-2
+    make-parameters:
+      - PREFIX=/usr
+      - SBINDIR=/usr/bin
+      - MANDIR=/usr/share/man
+      - ETCDIR=/etc
+      - BUILD_STATIC_LIB=0
+    build-packages:
+      - build-essential
+      - bison
+      - flex
+    organize:
+      usr/bin/sensors: bin/sensors
+    prime:
+      # No write permission under strict confinement
+      # Remove unusable tools (perl/shell scripts, isa probing)
+      # and build-only artifacts
+      - -usr/bin
+      - -usr/include
+      - -usr/share/man/man8/sensors-detect.8
+      - -usr/share/man/man8/fancontrol.8
+      - -usr/share/man/man8/pwmconfig.8
+      - -usr/share/man/man8/vt1211_pwm.8
+      - -usr/share/man/man8/isadump.8
+      - -usr/share/man/man8/isaset.8
+
   # usbutils resolves vendor/product names through the udev hwdb
   # (hwdb.bin). Generate one inside the snap.
   hwdb:
@@ -152,6 +182,13 @@ layout:
 
   /usr/share/lshw:
     bind: $SNAP/usr/share/lshw
+
+  # libsensors reads its chip/label configuration from /etc
+  /etc/sensors3.conf:
+    bind-file: $SNAP/etc/sensors3.conf
+
+  /etc/sensors.d:
+    bind: $SNAP/etc/sensors.d
 
 apps:
   lspci:
@@ -181,6 +218,12 @@ apps:
       - hardware-observe
       - system-observe
       - raw-usb
+
+  sensors:
+    command: bin/sensors
+    plugs:
+      - hardware-observe
+      - system-observe
 
   i2cdetect:
     command: bin/i2cdetect

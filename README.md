@@ -49,3 +49,4 @@ To build system utilities' snap pakcage for diagnostics.
 7. `sys-utils.i2cget`
 8. `sys-utils.i2cset`
 9. `sys-utils.i2ctransfer`
+10. `sys-utils.sensors`
