@@ -50,3 +50,4 @@ To build system utilities' snap pakcage for diagnostics.
 8. `sys-utils.i2cset`
 9. `sys-utils.i2ctransfer`
 10. `sys-utils.sensors`
+11. `sys-utils.cpupower`
