@@ -51,3 +51,4 @@ To build system utilities' snap pakcage for diagnostics.
 9. `sys-utils.i2ctransfer`
 10. `sys-utils.sensors`
 11. `sys-utils.cpupower`
+12. `sys-utils.edid-decode`

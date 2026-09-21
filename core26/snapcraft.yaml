@@ -199,6 +199,20 @@ parts:
       - -usr/include
       - -usr/share/bash-completion
 
+  edid-decode:
+    plugin: make
+    source: https://git.launchpad.net/ubuntu/+source/edid-decode
+    source-type: git
+    source-tag: import/0.1_git20220315.cb74358c2896-1.1build1
+    source-depth: 1
+    make-parameters:
+      - bindir=/usr/bin
+      - mandir=/usr/share/man
+    build-packages:
+      - build-essential
+    organize:
+      usr/bin/edid-decode: bin/edid-decode
+
   # usbutils resolves vendor/product names through the udev hwdb
   # (hwdb.bin). Generate one inside the snap.
   hwdb:
@@ -298,6 +312,12 @@ apps:
       - hardware-observe
       - system-observe
       - i2c
+
+  edid-decode:
+    command: bin/edid-decode
+    plugs:
+      - hardware-observe
+      - system-observe
 
   cpupower:
     command: bin/cpupower
