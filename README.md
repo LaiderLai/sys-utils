@@ -53,3 +53,8 @@ To build system utilities' snap pakcage for diagnostics.
 11. `sys-utils.cpupower` (disable)
 12. `sys-utils.edid-decode`
 13. `sys-utils.iw`
+14. `sys-utils.dtc`
+15. `sys-utils.fdtget`
+16. `sys-utils.fdtput`
+17. `sys-utils.fdtdump`
+18. `sys-utils.dtdiff`
