@@ -162,42 +162,42 @@ parts:
 
   # cpupower lives in the Linux kernel tree (tools/power/cpupower).
   # Partial pulls ~13 MB instead of the ~150 MB full tree.
-  cpupower:
-    plugin: make
-    source: https://github.com/torvalds/linux.git
-    source-type: git
-    source-subdir: tools/power/cpupower
-    override-pull: |
-      git init -q .
-      git remote add origin https://github.com/torvalds/linux.git
-      git config extensions.partialClone origin
-      git config remote.origin.promisor true
-      git config remote.origin.partialclonefilter tree:0
-      git fetch -q --depth 1 --filter=tree:0 origin tag v7.0
-      git sparse-checkout set --cone tools/power/cpupower
-      git checkout -q v7.0
-    make-parameters:
-      - prefix=/usr
-      - bindir=/usr/bin
-      - libdir=/usr/lib
-      - mandir=/usr/share/man
-      - NLS=false
-      - CPUFREQ_BENCH=false
-      - DEBUG=false
-    build-packages:
-      - build-essential
-      - pkg-config
-      - libpci-dev
-    stage-packages:
-      - libpci3
-    organize:
-      usr/bin/cpupower: bin/cpupower
-    prime:
-      # No write permission under strict confinement
-      # Remove unusable tools and build-only artifacts
-      - -usr/bin
-      - -usr/include
-      - -usr/share/bash-completion
+  #cpupower:
+  #  plugin: make
+  #  source: https://github.com/torvalds/linux.git
+  #  source-type: git
+  #  source-subdir: tools/power/cpupower
+  #  override-pull: |
+  #    git init -q .
+  #    git remote add origin https://github.com/torvalds/linux.git
+  #    git config extensions.partialClone origin
+  #    git config remote.origin.promisor true
+  #    git config remote.origin.partialclonefilter tree:0
+  #    git fetch -q --depth 1 --filter=tree:0 origin tag v7.0
+  #    git sparse-checkout set --cone tools/power/cpupower
+  #    git checkout -q v7.0
+  #  make-parameters:
+  #    - prefix=/usr
+  #    - bindir=/usr/bin
+  #    - libdir=/usr/lib
+  #    - mandir=/usr/share/man
+  #    - NLS=false
+  #    - CPUFREQ_BENCH=false
+  #    - DEBUG=false
+  #  build-packages:
+  #    - build-essential
+  #    - pkg-config
+  #    - libpci-dev
+  #  stage-packages:
+  #    - libpci3
+  #  organize:
+  #    usr/bin/cpupower: bin/cpupower
+  #  prime:
+  #    # No write permission under strict confinement
+  #    # Remove unusable tools and build-only artifacts
+  #    - -usr/bin
+  #    - -usr/include
+  #    - -usr/share/bash-completion
 
   edid-decode:
     plugin: make
@@ -319,12 +319,12 @@ apps:
       - hardware-observe
       - system-observe
 
-  cpupower:
-    command: bin/cpupower
-    plugs:
-      - hardware-observe
-      - system-observe
-      - cpu-control
+  #cpupower:
+  #  command: bin/cpupower
+  #  plugs:
+  #    - hardware-observe
+  #    - system-observe
+  #    - cpu-control
 
 plugs:
   hardware-observe:
@@ -337,5 +337,5 @@ plugs:
     interface: block-devices
   i2c:
     interface: i2c
-  cpu-control:
-    interface: cpu-control
+  #cpu-control:
+  #  interface: cpu-control
