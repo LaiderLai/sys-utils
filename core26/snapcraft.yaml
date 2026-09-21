@@ -213,6 +213,27 @@ parts:
     organize:
       usr/bin/edid-decode: bin/edid-decode
 
+  iw:
+    plugin: make
+    source: https://git.kernel.org/pub/scm/linux/kernel/git/jberg/iw.git
+    source-type: git
+    source-tag: v6.17
+    source-depth: 1
+    make-parameters:
+      - PREFIX=/usr
+      - SBINDIR=/usr/bin
+      - MANDIR=/usr/share/man
+    build-packages:
+      - build-essential
+      - pkg-config
+      - libnl-3-dev
+      - libnl-genl-3-dev
+    stage-packages:
+      - libnl-3-200
+      - libnl-genl-3-200
+    organize:
+      usr/bin/iw: bin/iw
+
   # usbutils resolves vendor/product names through the udev hwdb
   # (hwdb.bin). Generate one inside the snap.
   hwdb:
@@ -326,6 +347,14 @@ apps:
   #    - system-observe
   #    - cpu-control
 
+  iw:
+    command: bin/iw
+    plugs:
+      - hardware-observe
+      - system-observe
+      - network-observe
+      - network-control
+
 plugs:
   hardware-observe:
     interface: hardware-observe
@@ -339,3 +368,7 @@ plugs:
     interface: i2c
   #cpu-control:
   #  interface: cpu-control
+  network-observe:
+    interface: network-observe
+  network-control:
+    interface: network-control

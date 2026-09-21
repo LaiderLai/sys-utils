@@ -52,3 +52,4 @@ To build system utilities' snap pakcage for diagnostics.
 10. `sys-utils.sensors`
 11. `sys-utils.cpupower` (disable)
 12. `sys-utils.edid-decode`
+13. `sys-utils.iw`
