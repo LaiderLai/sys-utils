@@ -266,6 +266,28 @@ parts:
       - -usr/lib/*/libfdt.a
       - -usr/lib/*/libfdt.so
 
+  # ACPICA builds all of its tools in one tree; only acpidump and iasl
+  # are kept.
+  acpica-tools:
+    plugin: make
+    source: https://github.com/acpica/acpica.git
+    source-type: git
+    source-tag: R2025_04_04
+    source-depth: 1
+    make-parameters:
+      - PREFIX=/usr
+    build-packages:
+      - build-essential
+      - flex
+      - bison
+    organize:
+      usr/bin/acpidump: bin/acpidump
+      usr/bin/iasl: bin/iasl
+    prime:
+      # Remove the remaining upstream tools (acpibin, acpiexamples,
+      # acpiexec, acpihelp, acpisrc, acpixtract)
+      - -usr/bin
+
   # usbutils resolves vendor/product names through the udev hwdb
   # (hwdb.bin). Generate one inside the snap.
   hwdb:
@@ -418,6 +440,20 @@ apps:
   # dtdiff is a bash script that pipes two dtc dumps through diff
   dtdiff:
     command: bin/dtdiff
+    plugs:
+      - hardware-observe
+      - system-observe
+      - home
+
+  acpidump:
+    command: bin/acpidump
+    plugs:
+      - hardware-observe
+      - system-observe
+      - home
+
+  iasl:
+    command: bin/iasl
     plugs:
       - hardware-observe
       - system-observe

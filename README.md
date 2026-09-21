@@ -58,3 +58,5 @@ To build system utilities' snap pakcage for diagnostics.
 16. `sys-utils.fdtput`
 17. `sys-utils.fdtdump`
 18. `sys-utils.dtdiff`
+19. `sys-utils.acpidump`
+20. `sys-utils.iasl`
