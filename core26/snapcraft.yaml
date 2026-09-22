@@ -4,7 +4,7 @@ summary: System utilities for diagnostics
 description: |
   Sys-utils provides essential system utilities
   for hardware diagnostics.
-version: '0.1'
+version: '1.0'
 base: core26
 license: GPL-3.0+
 source-code: https://github.com/laiderlai/sys-utils
